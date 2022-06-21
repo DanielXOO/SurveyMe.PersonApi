@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Person.Api.Models.Request.Personality;
-using Person.Api.Models.Response.Errors;
 using Person.Api.Models.Response.Personality;
 using Persons.Models.Persons;
 using Persons.Services.Abstracts;
 using SurveyMe.Common.Exceptions;
+using SurveyMe.Error.Models.Response;
 
 namespace Person.Api.Controllers;
 

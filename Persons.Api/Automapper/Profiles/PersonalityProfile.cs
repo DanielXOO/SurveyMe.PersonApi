@@ -1,8 +1,8 @@
 using AutoMapper;
 using MongoDB.Bson;
-using Person.Api.Models.Request.Personality;
-using Person.Api.Models.Response.Personality;
 using Persons.Models.Persons;
+using SurveyMe.PersonsApi.Models.Request.Personality;
+using SurveyMe.PersonsApi.Models.Response.Personality;
 
 namespace Person.Api.Automapper.Profiles;
 

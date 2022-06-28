@@ -32,25 +32,11 @@ public sealed class PersonalityService : IPersonalityService
 
     public async Task AddPersonalityAsync(Personality personality)
     {
-        var isExist = await _repository.IsUserPersonalityExists(personality.UserId);
-        
-        if (isExist)
-        {
-            throw new ConflictException("User personality already exists");
-        }
-        
         await _repository.CreateAsync(personality);
     }
 
     public async Task EditPersonalityAsync(Personality personality)
     {
-        var isExist = await _repository.IsRecordExistAsync(personality.Id);
-        
-        if (!isExist)
-        {
-            throw new NotFoundException("User do not found");
-        }
-        
         await _repository.UpdateAsync(personality);
     }
 
@@ -58,13 +44,14 @@ public sealed class PersonalityService : IPersonalityService
     {
         var objectId = ObjectId.Parse(id);
         
-        var isExist = await _repository.IsRecordExistAsync(objectId);
-        
-        if (!isExist)
-        {
-            throw new NotFoundException("User do not found");
-        }
-        
         await _repository.DeleteAsync(objectId);
+    }
+
+    public async Task<Personality> GetPersonalityByUserIdAsync(string userId)
+    {
+        var id = Guid.Parse(userId);
+        var personality = await _repository.GetPersonalityByUserId(id);
+
+        return personality;
     }
 }

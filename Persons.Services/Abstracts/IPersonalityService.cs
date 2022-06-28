@@ -11,4 +11,6 @@ public interface IPersonalityService
     Task EditPersonalityAsync(Personality personality);
 
     Task DeletePersonality(string id);
+
+    Task<Personality> GetPersonalityByUserIdAsync(string userId);
 }

@@ -5,5 +5,5 @@ namespace Persons.Data.Repositories.Abstracts;
 
 public interface IPersonalityRepository : IRepository<Personality>
 {
-    Task<bool> IsUserPersonalityExists(Guid userId);
+    Task<Personality> GetPersonalityByUserId(Guid userId);
 }

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using IdentityServer4.AccessTokenValidation;
 using Person.Api.Extensions;
 using Persons.Data;
@@ -34,7 +35,11 @@ builder.Services.AddAutoMapper(configurations =>
     configurations.AddMaps(typeof(Program).Assembly);
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
     .AddIdentityServerAuthentication(options =>

@@ -17,5 +17,8 @@ public class Personality : BaseObject
     [BsonIgnoreIfNull]
     public Gender? Gender { get; set; }
 
-    public Guid UserId { get; set; }
+    [BsonIgnoreIfNull]
+    public Guid? UserId { get; set; }
+
+    public Guid AnswerId { get; set; }
 }

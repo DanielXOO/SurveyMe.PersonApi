@@ -10,8 +10,6 @@ public interface IRepository<T> where T : BaseObject
     Task UpdateAsync(T data);
     
     Task<T> GetByIdAsync(ObjectId id);
-    
-    Task<bool> IsRecordExistAsync(ObjectId id);
 
     Task DeleteAsync(ObjectId Id);
 }

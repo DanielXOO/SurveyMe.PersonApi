@@ -1,26 +1,26 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Person.Api.Models.Request.Personality;
-using Person.Api.Models.Response.Personality;
 using Persons.Models.Persons;
 using Persons.Services.Abstracts;
 using SurveyMe.Common.Exceptions;
 using SurveyMe.Error.Models.Response;
+using SurveyMe.PersonsApi.Models.Request.Personality;
+using SurveyMe.PersonsApi.Models.Response.Personality;
 
 namespace Person.Api.Controllers;
 
 [ApiController]
 [Authorize]
 [Route("api/[controller]")]
-public sealed class PersonController : Controller
+public sealed class PersonsController : Controller
 {
     private readonly IPersonalityService _personalityService;
 
     private readonly IMapper _mapper;
     
     
-    public PersonController(IPersonalityService personalityService, IMapper mapper)
+    public PersonsController(IPersonalityService personalityService, IMapper mapper)
     {
         _personalityService = personalityService;
         _mapper = mapper;

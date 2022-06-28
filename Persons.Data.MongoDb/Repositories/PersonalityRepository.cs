@@ -9,13 +9,12 @@ public sealed class PersonalityRepository : Repository<Personality>, IPersonalit
 {
     public PersonalityRepository(PersonsDbContext dbContext) : base(dbContext) { }
 
-
-    public async Task<bool> IsUserPersonalityExists(Guid userId)
+    public async Task<Personality> GetPersonalityByUserId(Guid userId)
     {
-        var isExist = await Collection
-            .Find(personality => personality.UserId == userId)
-            .AnyAsync();
+        var document = await Collection
+            .FindAsync(personality => personality.UserId == userId);
+        var personality = await document.FirstOrDefaultAsync();
 
-        return isExist;
+        return personality;
     }
 }

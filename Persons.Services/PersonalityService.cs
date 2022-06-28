@@ -17,10 +17,9 @@ public sealed class PersonalityService : IPersonalityService
     }
 
     
-    public async Task<Personality> GetPersonalityAsync(string id)
+    public async Task<Personality> GetPersonalityAsync(Guid id)
     {
-        var objectId = ObjectId.Parse(id);
-        var personality = await _repository.GetByIdAsync(objectId);
+        var personality = await _repository.GetPersonalityById(id);
 
         if (personality == null)
         {
@@ -30,9 +29,14 @@ public sealed class PersonalityService : IPersonalityService
         return personality;
     }
 
-    public async Task AddPersonalityAsync(Personality personality)
+    public async Task<Guid> AddPersonalityAsync(Personality personality)
     {
+        var personalityId = Guid.NewGuid();
+        personality.PersonalityId = personalityId;
+        
         await _repository.CreateAsync(personality);
+
+        return personalityId;
     }
 
     public async Task EditPersonalityAsync(Personality personality)
@@ -45,13 +49,5 @@ public sealed class PersonalityService : IPersonalityService
         var objectId = ObjectId.Parse(id);
         
         await _repository.DeleteAsync(objectId);
-    }
-
-    public async Task<Personality> GetPersonalityByUserIdAsync(string userId)
-    {
-        var id = Guid.Parse(userId);
-        var personality = await _repository.GetPersonalityByUserId(id);
-
-        return personality;
     }
 }

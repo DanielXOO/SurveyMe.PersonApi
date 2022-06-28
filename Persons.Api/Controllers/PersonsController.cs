@@ -48,15 +48,15 @@ public sealed class PersonsController : Controller
         
         var personality = _mapper.Map<Personality>(personalityRequest);
 
-        await _personalityService.AddPersonalityAsync(personality);
+        var id = await _personalityService.AddPersonalityAsync(personality);
         
-        return NoContent();
+        return Ok(id);
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(PersonalityResponseModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseErrorResponse))]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetPersonality(string id)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetPersonality(Guid id)
     {
         var personality = await _personalityService.GetPersonalityAsync(id);
         var personalityResponse = _mapper.Map<PersonalityResponseModel>(personality);

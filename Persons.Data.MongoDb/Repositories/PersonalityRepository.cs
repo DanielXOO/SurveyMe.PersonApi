@@ -9,11 +9,11 @@ public sealed class PersonalityRepository : Repository<Personality>, IPersonalit
 {
     public PersonalityRepository(PersonsDbContext dbContext) : base(dbContext) { }
 
-    public async Task<Personality> GetPersonalityByUserId(Guid userId)
+    
+    public async Task<Personality> GetPersonalityById(Guid id)
     {
-        var document = await Collection
-            .FindAsync(personality => personality.UserId == userId);
-        var personality = await document.FirstOrDefaultAsync();
+        var filter = await Collection.FindAsync(obj => obj.PersonalityId == id);
+        var personality = await filter.SingleOrDefaultAsync();
 
         return personality;
     }

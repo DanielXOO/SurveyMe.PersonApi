@@ -4,13 +4,11 @@ namespace Persons.Services.Abstracts;
 
 public interface IPersonalityService
 {
-    Task<Personality> GetPersonalityAsync(string id);
+    Task<Personality> GetPersonalityAsync(Guid id);
     
-    Task AddPersonalityAsync(Personality personality);
+    Task<Guid> AddPersonalityAsync(Personality personality);
 
     Task EditPersonalityAsync(Personality personality);
 
     Task DeletePersonality(string id);
-
-    Task<Personality> GetPersonalityByUserIdAsync(string userId);
 }

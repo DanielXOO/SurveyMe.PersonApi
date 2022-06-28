@@ -5,6 +5,8 @@ namespace Persons.Models.Persons;
 
 public class Personality : BaseObject
 {
+    public Guid PersonalityId { get; set; }
+    
     [BsonIgnoreIfNull]
     public string? FirstName { get; set; }
     
@@ -19,6 +21,4 @@ public class Personality : BaseObject
 
     [BsonIgnoreIfNull]
     public Guid? UserId { get; set; }
-
-    public Guid AnswerId { get; set; }
 }

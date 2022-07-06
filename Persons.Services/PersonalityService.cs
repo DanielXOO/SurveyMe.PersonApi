@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using Persons.Data.Repositories.Abstracts;
 using Persons.Models.Persons;
+using Persons.Models.SurveysOptions;
 using Persons.Services.Abstracts;
 using SurveyMe.Common.Exceptions;
 
@@ -17,9 +18,9 @@ public sealed class PersonalityService : IPersonalityService
     }
 
     
-    public async Task<Personality> GetPersonalityAsync(Guid id)
+    public async Task<Personality> GetPersonalityAsync(Guid id, SurveyOptions options)
     {
-        var personality = await _repository.GetPersonalityById(id);
+        var personality = await _repository.GetPersonalityById(id, options.Options);
 
         if (personality == null)
         {

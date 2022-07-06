@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Persons.Models.Persons;
+using Persons.Models.SurveysOptions;
 using Persons.Services.Abstracts;
 using SurveyMe.Common.Exceptions;
 using SurveyMe.Error.Models.Response;
 using SurveyMe.PersonsApi.Models.Request.Personality;
 using SurveyMe.PersonsApi.Models.Response.Personality;
+using SurveyMe.SurveyPersonApi.Models.Request.Options.Survey;
 
 namespace Person.Api.Controllers;
 
@@ -56,9 +58,11 @@ public sealed class PersonsController : Controller
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(PersonalityResponseModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseErrorResponse))]
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetPersonality(Guid id)
+    public async Task<IActionResult> GetPersonality(Guid id, [FromQuery] SurveyOptionsGetRequestModel surveyOptionsRequest)
     {
-        var personality = await _personalityService.GetPersonalityAsync(id);
+        var options = _mapper.Map<SurveyOptions>(surveyOptionsRequest);
+        
+        var personality = await _personalityService.GetPersonalityAsync(id, options);
         var personalityResponse = _mapper.Map<PersonalityResponseModel>(personality);
 
         return Ok(personalityResponse);

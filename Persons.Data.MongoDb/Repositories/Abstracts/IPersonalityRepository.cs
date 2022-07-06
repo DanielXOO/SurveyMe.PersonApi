@@ -5,5 +5,5 @@ namespace Persons.Data.Repositories.Abstracts;
 
 public interface IPersonalityRepository : IRepository<Personality>
 {
-    Task<Personality> GetPersonalityById(Guid id);
+    Task<Personality> GetPersonalityById(Guid id, IEnumerable<string> properties);
 }

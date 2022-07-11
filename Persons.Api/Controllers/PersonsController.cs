@@ -8,7 +8,6 @@ using SurveyMe.Common.Exceptions;
 using SurveyMe.Error.Models.Response;
 using SurveyMe.PersonsApi.Models.Request.Personality;
 using SurveyMe.PersonsApi.Models.Response.Personality;
-using SurveyMe.SurveyPersonApi.Models.Request.Options.Survey;
 
 namespace Person.Api.Controllers;
 
@@ -28,10 +27,17 @@ public sealed class PersonsController : Controller
         _mapper = mapper;
     }
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    
+    /// <summary>
+    /// Endpoint for adding new personality
+    /// </summary>
+    /// <param name="personalityRequest">Personality add model</param>
+    /// <returns>Created personality model</returns>
+    /// <exception cref="BadRequestException">Throws if edit model is invalid</exception>
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PersonalityResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BadRequestErrorResponse))]
     [HttpPost]
-    public async Task<IActionResult> AddPersonality(PersonalityCreateRequestModels personalityRequest)
+    public async Task<IActionResult> AddPersonality(PersonalityCreateRequestModel personalityRequest)
     {
         if (personalityRequest == null)
         {
@@ -50,15 +56,24 @@ public sealed class PersonsController : Controller
         
         var personality = _mapper.Map<Personality>(personalityRequest);
 
-        var id = await _personalityService.AddPersonalityAsync(personality);
+        personality = await _personalityService.AddPersonalityAsync(personality);
+
+        var personalityResponse = _mapper.Map<PersonalityResponseModel>(personality);
         
-        return Ok(id);
+        return CreatedAtAction(Url.Action(nameof(GetPersonality)), personalityResponse);
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(PersonalityResponseModel))]
+    /// <summary>
+    /// Endpoint for getting personality by id with options
+    /// </summary>
+    /// <param name="id">Personality id</param>
+    /// <param name="surveyOptionsRequest">Options for getting required personality</param>
+    /// <returns>Personality model</returns>
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PersonalityResponseModel))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseErrorResponse))]
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetPersonality(Guid id, [FromQuery] SurveyOptionsGetRequestModel surveyOptionsRequest)
+    public async Task<IActionResult> GetPersonality(Guid id, 
+        [FromQuery] PersonalityGetRequestModel surveyOptionsRequest)
     {
         var options = _mapper.Map<SurveyOptions>(surveyOptionsRequest);
         
@@ -68,12 +83,18 @@ public sealed class PersonsController : Controller
         return Ok(personalityResponse);
     }
 
+    /// <summary>
+    /// Endpoint for edit personality
+    /// </summary>
+    /// <param name="personalityEditRequestModels">Personality model</param>
+    /// <param name="id">Personality id</param>
+    /// <exception cref="BadRequestException">Throws if edit model is invalid</exception>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BadRequestErrorResponse))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseErrorResponse))]
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> EditPersonality(PersonalityEditRequestModels personalityEditRequestModels,
-        string id)
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> EditPersonality(PersonalityEditRequestModel personalityEditRequestModels,
+        Guid id)
     {
         if (personalityEditRequestModels == null)
         {
@@ -90,7 +111,7 @@ public sealed class PersonsController : Controller
             throw new BadRequestException("Invalid data", errors);
         }
 
-        if (!string.Equals(personalityEditRequestModels.Id, id))
+        if (personalityEditRequestModels.PersonalityId == id)
         {
             throw new BadRequestException("Model id and request id do not match");
         }
@@ -101,12 +122,16 @@ public sealed class PersonsController : Controller
         return NoContent();
     }
 
+    /// <summary>
+    /// Endpoint for deleting user personality
+    /// </summary>
+    /// <param name="id">Personality id</param>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseErrorResponse))]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePersonality(string id)
+    public async Task<IActionResult> DeletePersonality(Guid id)
     {
-        await _personalityService.DeletePersonality(id);
+        await _personalityService.DeletePersonalityAsync(id);
         
         return NoContent();
     }

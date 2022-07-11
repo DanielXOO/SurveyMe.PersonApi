@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using Persons.Data.Repositories.Abstracts;
+﻿using Persons.Data.Repositories.Abstracts;
 using Persons.Models.Persons;
 using Persons.Models.SurveysOptions;
 using Persons.Services.Abstracts;
@@ -30,14 +29,13 @@ public sealed class PersonalityService : IPersonalityService
         return personality;
     }
 
-    public async Task<Guid> AddPersonalityAsync(Personality personality)
+    public async Task<Personality> AddPersonalityAsync(Personality personality)
     {
-        var personalityId = Guid.NewGuid();
-        personality.PersonalityId = personalityId;
+        personality.PersonalityId = Guid.NewGuid();
         
         await _repository.CreateAsync(personality);
 
-        return personalityId;
+        return personality;
     }
 
     public async Task EditPersonalityAsync(Personality personality)
@@ -45,10 +43,8 @@ public sealed class PersonalityService : IPersonalityService
         await _repository.UpdateAsync(personality);
     }
 
-    public async Task DeletePersonality(string id)
+    public async Task DeletePersonalityAsync(Guid id)
     {
-        var objectId = ObjectId.Parse(id);
-        
-        await _repository.DeleteAsync(objectId);
+        await _repository.DeletePersonalityAsync(id);
     }
 }

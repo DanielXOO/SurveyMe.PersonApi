@@ -7,9 +7,9 @@ public interface IPersonalityService
 {
     Task<Personality> GetPersonalityAsync(Guid id, SurveyOptions requiredProperties);
     
-    Task<Guid> AddPersonalityAsync(Personality personality);
+    Task<Personality> AddPersonalityAsync(Personality personality);
 
     Task EditPersonalityAsync(Personality personality);
 
-    Task DeletePersonality(string id);
+    Task DeletePersonalityAsync(Guid id);
 }

@@ -10,10 +10,9 @@ public class PersonalityProfile : Profile
 {
     public PersonalityProfile()
     {
-        CreateMap<PersonalityCreateRequestModels, Personality>();
-        
-        CreateMap<PersonalityEditRequestModels, Personality>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => ObjectId.Parse(src.Id)));
+        CreateMap<PersonalityCreateRequestModel, Personality>();
+
+        CreateMap<PersonalityEditRequestModel, Personality>();
         
         CreateMap<Personality, PersonalityResponseModel>();
     }

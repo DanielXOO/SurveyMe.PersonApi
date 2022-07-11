@@ -27,4 +27,10 @@ public sealed class PersonalityRepository : Repository<Personality>, IPersonalit
 
         return personality;
     }
+
+    public async Task DeletePersonalityAsync(Guid id)
+    {
+        await Collection
+            .DeleteOneAsync(obj => obj.PersonalityId == id);
+    }
 }

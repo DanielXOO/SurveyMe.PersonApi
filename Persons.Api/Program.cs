@@ -30,6 +30,12 @@ builder.Services.AddScoped<IPersonalityService, PersonalityService>();
 
 builder.Services.Configure<DbConfiguration>(builder.Configuration.GetSection("DbConfiguration"));
 
+builder.Services.AddSwaggerGen(options =>
+{
+    var filePath = Path.Combine(AppContext.BaseDirectory, "Persons.Api.xml");
+    options.IncludeXmlComments(filePath);
+});
+
 builder.Services.AddAutoMapper(configurations =>
 {
     configurations.AddMaps(typeof(Program).Assembly);

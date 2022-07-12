@@ -52,9 +52,8 @@ builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.Authenti
     {
         options.Authority = "https://localhost:7179";
         options.RequireHttpsMetadata = false;
-        options.ApiName = "SurveyMeApi";
-        options.ApiSecret = "api_secret";
-        options.JwtValidationClockSkew = TimeSpan.FromSeconds(1);
+        options.ApiName = "Persons.Api";
+        options.ApiSecret = "persons_secret";
     });
 
 var app = builder.Build();

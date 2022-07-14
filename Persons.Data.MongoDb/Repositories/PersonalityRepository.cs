@@ -13,16 +13,16 @@ public sealed class PersonalityRepository : Repository<Personality>, IPersonalit
     
     public async Task<Personality> GetPersonalityById(Guid id, IEnumerable<string> properties)
     {
-
-        var projection = Builders<Personality>.Projection;
+        var projection = Builders<Personality>.Projection
+            .Include(nameof(Personality.PersonalityId));
         
         foreach (var property in properties)
         {
-            projection.Include(property);
+            projection = projection.Include(property);
         }
         
         var cursor = Collection
-            .Find(obj => obj.PersonalityId == id).Project<Personality>(projection.ToBsonDocument());
+            .Find(obj => obj.PersonalityId == id).Project<Personality>(projection);
         var personality = await cursor.SingleOrDefaultAsync();
 
         return personality;

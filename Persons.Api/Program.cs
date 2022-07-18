@@ -50,7 +50,7 @@ builder.Services.AddControllers()
 builder.Services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
     .AddIdentityServerAuthentication(options =>
     {
-        options.Authority = "https://localhost:7179";
+        options.Authority = "http://authentication-api";
         options.RequireHttpsMetadata = false;
         options.ApiName = "Persons.Api";
         options.ApiSecret = "persons_secret";

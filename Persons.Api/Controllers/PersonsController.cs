@@ -73,10 +73,8 @@ public sealed class PersonsController : Controller
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(BaseErrorResponse))]
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetPersonality(Guid id, 
-        [FromQuery] PersonalityGetRequestModel surveyOptionsRequest)
+        [FromQuery] Guid surveyId, [FromQuery] IReadOnlyCollection<string> options)
     {
-        var options = _mapper.Map<SurveyOptions>(surveyOptionsRequest);
-        
         var personality = await _personalityService.GetPersonalityAsync(id, options);
         var personalityResponse = _mapper.Map<PersonalityResponseModel>(personality);
 
@@ -111,7 +109,7 @@ public sealed class PersonsController : Controller
             throw new BadRequestException("Invalid data", errors);
         }
 
-        if (personalityEditRequestModels.PersonalityId == id)
+        if (personalityEditRequestModels.PersonalityId != id)
         {
             throw new BadRequestException("Model id and request id do not match");
         }

@@ -17,9 +17,9 @@ public sealed class PersonalityService : IPersonalityService
     }
 
     
-    public async Task<Personality> GetPersonalityAsync(Guid id, SurveyOptions options)
+    public async Task<Personality> GetPersonalityAsync(Guid id, IReadOnlyCollection<string> options)
     {
-        var personality = await _repository.GetPersonalityById(id, options.Options);
+        var personality = await _repository.GetPersonalityById(id, options);
 
         if (personality == null)
         {

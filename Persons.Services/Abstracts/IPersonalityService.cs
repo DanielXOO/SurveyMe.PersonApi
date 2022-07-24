@@ -5,7 +5,7 @@ namespace Persons.Services.Abstracts;
 
 public interface IPersonalityService
 {
-    Task<Personality> GetPersonalityAsync(Guid id, SurveyOptions requiredProperties);
+    Task<Personality> GetPersonalityAsync(Guid id, IReadOnlyCollection<string> options);
     
     Task<Personality> AddPersonalityAsync(Personality personality);
 
